@@ -8,5 +8,6 @@ class WallpaperClient @Inject constructor(
     private val wallpaperService: WallpaperService
 ) {
 
-    suspend fun getWallpapers(): Response<WallpaperResponse> = wallpaperService.getWallpapers()
+    suspend fun getWallpapers(page: Int): Response<WallpaperResponse> =
+        wallpaperService.getWallpapers(page)
 }
