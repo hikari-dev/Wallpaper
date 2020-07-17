@@ -9,5 +9,5 @@ ext.versions = [
         okHttpVersion      : '4.8.0',
         roomVersion        : '2.2.5',
         timberVersion      : '4.7.1',
-        coilVersion        : '0.11.0',
+        glideVersion       : '4.11.0',
 ]

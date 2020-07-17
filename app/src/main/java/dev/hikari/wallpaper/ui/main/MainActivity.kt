@@ -6,11 +6,13 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import dev.hikari.wallpaper.R
 import dev.hikari.wallpaper.model.Wallpaper
+import dev.hikari.wallpaper.utils.DensityUtils
 import dev.hikari.wallpaper.utils.Status
+import dev.hikari.wallpaper.widget.StaggeredItemDecoration
 import kotlinx.android.synthetic.main.activity_main.*
 
 @AndroidEntryPoint
@@ -28,8 +30,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupUI() {
-        recyclerView.layoutManager = GridLayoutManager(this, 2)
+        val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
+        recyclerView.layoutManager = layoutManager
         adapter = WallpaperAdapter(arrayListOf())
+        recyclerView.addItemDecoration(StaggeredItemDecoration(DensityUtils.dp2px(8.0f)))
         recyclerView.adapter = adapter
     }
 

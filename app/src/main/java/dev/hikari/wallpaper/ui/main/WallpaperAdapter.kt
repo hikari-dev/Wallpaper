@@ -4,21 +4,35 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import coil.api.load
+import com.bumptech.glide.Glide
 import dev.hikari.wallpaper.R
 import dev.hikari.wallpaper.model.Wallpaper
 import kotlinx.android.synthetic.main.item_wallpaper.view.*
 
-class WallpaperAdapter(
+class WallpaperAdapter constructor(
     private val wallpapers: ArrayList<Wallpaper>
-) :
-    RecyclerView.Adapter<WallpaperAdapter.DataViewHolder>() {
+) : RecyclerView.Adapter<WallpaperAdapter.DataViewHolder>() {
+
+    companion object {
+        private const val MIN_HEIGHT = 350
+        private const val MAX_HEIGHT = 600
+    }
 
     class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(wallpaper: Wallpaper) {
-            itemView.ivWallpaper.load(wallpaper.path) {
-                crossfade(true)
+            val layoutParams = itemView.ivWallpaper.layoutParams
+            val imageWidth = itemView.context.resources.displayMetrics.widthPixels / 2
+            layoutParams.width = imageWidth
+            layoutParams.height = imageWidth * wallpaper.dimension_y / wallpaper.dimension_x
+            if (layoutParams.height < MIN_HEIGHT) {
+                layoutParams.height = MIN_HEIGHT
+            } else if (layoutParams.height > MAX_HEIGHT) {
+                layoutParams.height = MAX_HEIGHT
             }
+            itemView.ivWallpaper.layoutParams = layoutParams
+            Glide.with(itemView.ivWallpaper.context)
+                .load(wallpaper.thumbs.small)
+                .into(itemView.ivWallpaper)
         }
     }
 
@@ -35,4 +49,13 @@ class WallpaperAdapter(
     fun addData(list: List<Wallpaper>) {
         wallpapers.addAll(list)
     }
+
+//    override fun onViewAttachedToWindow(holder: DataViewHolder) {
+//        val lp = holder.itemView.layoutParams
+//        if (lp is StaggeredGridLayoutManager.LayoutParams
+//            && holder.layoutPosition == 0
+//        ) {
+//            lp.isFullSpan = true
+//        }
+//    }
 }

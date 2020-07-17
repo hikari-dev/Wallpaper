@@ -8,6 +8,7 @@ import dev.hikari.wallpaper.model.Wallpaper
 import dev.hikari.wallpaper.repository.MainRepository
 import dev.hikari.wallpaper.utils.NetworkUtils
 import dev.hikari.wallpaper.utils.Resource
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -24,10 +25,13 @@ class MainViewModel @ViewModelInject constructor(
     }
 
     private fun fetchWallpapers() {
-        viewModelScope.launch {
+        viewModelScope.launch(CoroutineExceptionHandler { _, throwable ->
+            Timber.e(throwable)
+            wallpapers.postValue(Resource.error(throwable.message ?: "unknown error", null))
+        }) {
             wallpapers.postValue(Resource.loading(null))
             if (networkUtils.isNetworkConnected()) {
-                mainRepository.fetchWallpapers(1).let {
+                mainRepository.fetchWallpapers(3).let {
                     if (it.isSuccessful) {
                         wallpapers.postValue(Resource.success(it.body()?.data))
                     } else {
