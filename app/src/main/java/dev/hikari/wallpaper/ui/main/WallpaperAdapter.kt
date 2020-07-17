@@ -50,12 +50,4 @@ class WallpaperAdapter constructor(
         wallpapers.addAll(list)
     }
 
-//    override fun onViewAttachedToWindow(holder: DataViewHolder) {
-//        val lp = holder.itemView.layoutParams
-//        if (lp is StaggeredGridLayoutManager.LayoutParams
-//            && holder.layoutPosition == 0
-//        ) {
-//            lp.isFullSpan = true
-//        }
-//    }
 }
