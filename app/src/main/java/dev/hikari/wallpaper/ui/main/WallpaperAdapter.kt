@@ -31,7 +31,7 @@ class WallpaperAdapter constructor(
             }
             itemView.ivWallpaper.layoutParams = layoutParams
             Glide.with(itemView.ivWallpaper.context)
-                .load(wallpaper.thumbs.small)
+                .load(wallpaper.thumbs.original)
                 .into(itemView.ivWallpaper)
         }
     }
