@@ -21,17 +21,17 @@ class MainViewModel @ViewModelInject constructor(
 
     init {
         Timber.d("MainViewModel Init")
-        fetchWallpapers()
+        fetchWallpapers(1)
     }
 
-    private fun fetchWallpapers() {
+    fun fetchWallpapers(page: Int) {
         viewModelScope.launch(CoroutineExceptionHandler { _, throwable ->
             Timber.e(throwable)
             wallpapers.postValue(Resource.error(throwable.message ?: "unknown error", null))
         }) {
             wallpapers.postValue(Resource.loading(null))
             if (networkUtils.isNetworkConnected()) {
-                mainRepository.fetchWallpapers(3).let {
+                mainRepository.fetchWallpapers(page).let {
                     if (it.isSuccessful) {
                         wallpapers.postValue(Resource.success(it.body()?.data))
                     } else {

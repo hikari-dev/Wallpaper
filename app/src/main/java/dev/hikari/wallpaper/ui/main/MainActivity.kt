@@ -23,6 +23,8 @@ class MainActivity : AppCompatActivity() {
     private val mainViewModel by viewModels<MainViewModel>()
     private lateinit var mAdapter: WallpaperAdapter
     private val loadMoreThreshold = 2
+    private var currentPage = 1
+    private var isLoading = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,11 +50,12 @@ class MainActivity : AppCompatActivity() {
                         (recyclerView.layoutManager as StaggeredGridLayoutManager).findLastVisibleItemPositions(
                             null
                         )
-                    Timber.d("lastVisiblePositions -> ${lastVisibleItemPositions.joinToString()}")
-                    val needLoadMore =
-                        lastVisibleItemPositions.min() ?: 0 + loadMoreThreshold >= (recyclerView.layoutManager as StaggeredGridLayoutManager).itemCount
-                    if (needLoadMore) {
-                        Timber.d("start loadMore")
+                    val needLoadMore = (lastVisibleItemPositions.max()
+                        ?: 0) + loadMoreThreshold >= (recyclerView.layoutManager as StaggeredGridLayoutManager).itemCount
+                    if (needLoadMore && !isLoading) {
+                        Timber.e("start loadMore")
+                        currentPage++
+                        mainViewModel.fetchWallpapers(currentPage)
                     }
                 }
             })
@@ -65,6 +68,7 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.wallpapers.observe(this, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
+                    isLoading = false
                     progressBar.visibility = View.GONE
                     it.data?.let { wallpapers ->
                         renderList(wallpapers)
@@ -72,12 +76,13 @@ class MainActivity : AppCompatActivity() {
                     recyclerView.visibility = View.VISIBLE
                 }
                 Status.ERROR -> {
+                    isLoading = false
                     progressBar.visibility = View.GONE
                     Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
                 }
                 Status.LOADING -> {
+                    isLoading = true
                     progressBar.visibility = View.VISIBLE
-                    recyclerView.visibility = View.GONE
                 }
             }
         })
