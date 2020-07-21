@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mAdapter: WallpaperAdapter
     private val loadMoreThreshold = 2
     private var currentPage = 1
-    private var isLoading = false
+    private var isLoadingMore = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +52,8 @@ class MainActivity : AppCompatActivity() {
                         )
                     val needLoadMore = (lastVisibleItemPositions.max()
                         ?: 0) + loadMoreThreshold >= (recyclerView.layoutManager as StaggeredGridLayoutManager).itemCount
-                    if (needLoadMore && !isLoading) {
+                    if (needLoadMore && !isLoadingMore) {
+                        isLoadingMore = true
                         Timber.e("start loadMore")
                         currentPage++
                         mainViewModel.fetchWallpapers(currentPage)
@@ -68,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.wallpapers.observe(this, Observer {
             when (it.status) {
                 Status.SUCCESS -> {
-                    isLoading = false
+                    isLoadingMore = false
                     progressBar.visibility = View.GONE
                     it.data?.let { wallpapers ->
                         renderList(wallpapers)
@@ -76,13 +77,14 @@ class MainActivity : AppCompatActivity() {
                     recyclerView.visibility = View.VISIBLE
                 }
                 Status.ERROR -> {
-                    isLoading = false
+                    isLoadingMore = false
                     progressBar.visibility = View.GONE
                     Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
                 }
                 Status.LOADING -> {
-                    isLoading = true
-                    progressBar.visibility = View.VISIBLE
+                    if (!isLoadingMore) {
+                        progressBar.visibility = View.VISIBLE
+                    }
                 }
             }
         })
