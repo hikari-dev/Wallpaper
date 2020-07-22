@@ -10,12 +10,13 @@ import dev.hikari.wallpaper.model.Wallpaper
 import kotlinx.android.synthetic.main.item_wallpaper.view.*
 
 class WallpaperAdapter constructor(
-    private val wallpapers: ArrayList<Wallpaper>
+    private val wallpapers: MutableList<Wallpaper>,
+    private val onWallpaperClickListener: (Int) -> Unit
 ) : RecyclerView.Adapter<WallpaperAdapter.DataViewHolder>() {
 
     companion object {
-        private const val MIN_HEIGHT = 350
-        private const val MAX_HEIGHT = 600
+        private const val MIN_HEIGHT = 360
+        private const val MAX_HEIGHT = 800
     }
 
     class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -23,7 +24,7 @@ class WallpaperAdapter constructor(
             val layoutParams = itemView.ivWallpaper.layoutParams
             val imageWidth = itemView.context.resources.displayMetrics.widthPixels / 2
             layoutParams.width = imageWidth
-            layoutParams.height = imageWidth * wallpaper.dimension_y / wallpaper.dimension_x
+            layoutParams.height = imageWidth * wallpaper.dimensionY / wallpaper.dimensionX
             if (layoutParams.height < MIN_HEIGHT) {
                 layoutParams.height = MIN_HEIGHT
             } else if (layoutParams.height > MAX_HEIGHT) {
@@ -43,11 +44,9 @@ class WallpaperAdapter constructor(
 
     override fun getItemCount(): Int = wallpapers.size
 
-    override fun onBindViewHolder(holder: DataViewHolder, position: Int) =
+    override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
         holder.bind(wallpapers[position])
-
-    fun addData(list: List<Wallpaper>) {
-        wallpapers.addAll(list)
+        holder.itemView.setOnClickListener { onWallpaperClickListener.invoke(position) }
     }
 
 }

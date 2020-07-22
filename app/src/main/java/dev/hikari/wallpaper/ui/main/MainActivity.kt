@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     private val loadMoreThreshold = 2
     private var currentPage = 1
     private var isLoadingMore = false
+    private val wallpapers = mutableListOf<Wallpaper>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +41,9 @@ class MainActivity : AppCompatActivity() {
                 StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             staggeredGridLayoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
             layoutManager = staggeredGridLayoutManager
-            mAdapter = WallpaperAdapter(arrayListOf())
+            mAdapter = WallpaperAdapter(wallpapers) { position ->
+
+            }
             adapter = mAdapter
             addItemDecoration(StaggeredItemDecoration(DensityUtils.dp2px(8.0f)))
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -71,8 +74,8 @@ class MainActivity : AppCompatActivity() {
                 Status.SUCCESS -> {
                     isLoadingMore = false
                     progressBar.visibility = View.GONE
-                    it.data?.let { wallpapers ->
-                        renderList(wallpapers)
+                    it.data?.let { list ->
+                        renderList(list)
                     }
                     recyclerView.visibility = View.VISIBLE
                 }
@@ -90,8 +93,9 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun renderList(wallpapers: List<Wallpaper>) {
-        mAdapter.addData(wallpapers)
-        mAdapter.notifyDataSetChanged()
+    private fun renderList(list: List<Wallpaper>) {
+        wallpapers.addAll(list)
+        //这里不要用notifyDataSetChanged()方法,不然可能会导致加载多页数据后顶部留白
+        mAdapter.notifyItemInserted(mAdapter.itemCount - 1)
     }
 }

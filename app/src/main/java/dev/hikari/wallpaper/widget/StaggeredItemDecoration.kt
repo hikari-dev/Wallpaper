@@ -14,7 +14,6 @@ class StaggeredItemDecoration(private val space: Int) : RecyclerView.ItemDecorat
         state: RecyclerView.State
     ) {
         outRect.bottom = space
-        val position = parent.getChildAdapterPosition(view)
         val params =
             view.layoutParams as StaggeredGridLayoutManager.LayoutParams
         if (params.spanIndex % 2 != 0) {
@@ -25,11 +24,6 @@ class StaggeredItemDecoration(private val space: Int) : RecyclerView.ItemDecorat
             //左边
             outRect.left = space
             outRect.right = space / 2
-        }
-        if (position == 0) {
-            outRect.top = 0
-            outRect.right = 0
-            outRect.left = 0
         }
     }
 }
