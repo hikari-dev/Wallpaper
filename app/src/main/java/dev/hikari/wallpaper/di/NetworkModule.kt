@@ -3,7 +3,7 @@ package dev.hikari.wallpaper.di
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import dev.hikari.wallpaper.data.network.WallpaperClient
 import dev.hikari.wallpaper.data.network.WallpaperService
 import okhttp3.OkHttpClient
@@ -14,7 +14,7 @@ import timber.log.Timber
 import javax.inject.Singleton
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 object NetworkModule {
 
     @Provides
