@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import dev.hikari.wallpaper.R
 import dev.hikari.wallpaper.model.Wallpaper
+import dev.hikari.wallpaper.ui.detail.DetailActivity
 import dev.hikari.wallpaper.utils.DensityUtils
 import dev.hikari.wallpaper.utils.Status
 import dev.hikari.wallpaper.widget.StaggeredItemDecoration
@@ -42,7 +43,7 @@ class MainActivity : AppCompatActivity() {
             staggeredGridLayoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
             layoutManager = staggeredGridLayoutManager
             mAdapter = WallpaperAdapter(wallpapers) { position ->
-
+                DetailActivity.startActivity(this@MainActivity, wallpapers[position])
             }
             adapter = mAdapter
             addItemDecoration(StaggeredItemDecoration(DensityUtils.dp2px(8.0f)))

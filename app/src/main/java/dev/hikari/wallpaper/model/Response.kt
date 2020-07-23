@@ -1,9 +1,12 @@
 package dev.hikari.wallpaper.model
 
+import android.os.Parcelable
 import com.squareup.moshi.Json
+import kotlinx.android.parcel.Parcelize
 
 data class WallpaperResponse(val data: List<Wallpaper>, val meta: Meta)
 
+@Parcelize
 data class Wallpaper(
     val id: String,
     val url: String,
@@ -18,14 +21,17 @@ data class Wallpaper(
     @field:Json(name = "dimension_y") val dimensionY: Int,
     val resolution: String,
     @field:Json(name = "created_at") val createdAt: String,
+    @field:Json(name = "file_size") val fileSize: Int,
+    @field:Json(name = "file_type") val fileType: String,
     val thumbs: Thumbs
-)
+) : Parcelable
 
+@Parcelize
 data class Thumbs(
     val large: String,
     val original: String,
     val small: String
-)
+) : Parcelable
 
 data class Meta(
     @field:Json(name = "current_page") val currentPage: Int,

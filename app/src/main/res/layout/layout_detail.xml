@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff">
+
+        <View
+            android:id="@+id/slider"
+            android:layout_width="100dp"
+            android:layout_height="3dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/shape_slider"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvCreatedAt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:padding="6dp"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/slider"
+            tools:text="上传于xxx" />
+
+        <TextView
+            android:id="@+id/tvDownload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:drawableTop="@drawable/ic_download_24"
+            android:drawablePadding="6dp"
+            android:paddingLeft="24dp"
+            android:paddingTop="6dp"
+            android:paddingRight="24dp"
+            android:paddingBottom="6dp"
+            android:text="下载"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/tvShare"
+            app:layout_constraintTop_toBottomOf="@+id/tvCreatedAt" />
+
+        <TextView
+            android:id="@+id/tvShare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/ic_share_24"
+            android:drawablePadding="6dp"
+            android:paddingLeft="24dp"
+            android:paddingTop="6dp"
+            android:paddingRight="24dp"
+            android:paddingBottom="6dp"
+            android:text="分享"
+            app:layout_constraintBottom_toBottomOf="@+id/tvDownload"
+            app:layout_constraintLeft_toRightOf="@+id/tvDownload"
+            app:layout_constraintRight_toLeftOf="@+id/tvSetWallpaper"
+            app:layout_constraintTop_toTopOf="@+id/tvDownload" />
+
+        <TextView
+            android:id="@+id/tvSetWallpaper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/ic_wallpaper_24"
+            android:drawablePadding="6dp"
+            android:paddingLeft="24dp"
+            android:paddingTop="6dp"
+            android:paddingRight="24dp"
+            android:paddingBottom="6dp"
+            android:text="壁纸"
+            app:layout_constraintBottom_toBottomOf="@id/tvDownload"
+            app:layout_constraintLeft_toRightOf="@+id/tvShare"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvDownload" />
+
+        <TextView
+            android:id="@+id/tvLikes"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:drawableStart="@drawable/ic_favorite_24"
+            android:drawablePadding="24dp"
+            android:gravity="center"
+            android:padding="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvDownload"
+            tools:text="666" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="LIKES"
+            app:layout_constraintBottom_toBottomOf="@+id/tvLikes"
+            app:layout_constraintLeft_toRightOf="@+id/tvLikes"
+            app:layout_constraintTop_toTopOf="@+id/tvLikes" />
+
+        <TextView
+            android:id="@+id/tvViews"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_eye_24"
+            android:drawablePadding="24dp"
+            android:gravity="center"
+            android:padding="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvLikes"
+            tools:text="666" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="VIEWS"
+            app:layout_constraintBottom_toBottomOf="@+id/tvViews"
+            app:layout_constraintLeft_toRightOf="@+id/tvViews"
+            app:layout_constraintTop_toTopOf="@+id/tvViews" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</merge>
