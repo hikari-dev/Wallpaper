@@ -5,13 +5,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffffff">
+        android:background="#ffffff"
+        android:paddingTop="12dp"
+        android:paddingBottom="24dp">
 
         <View
             android:id="@+id/slider"
             android:layout_width="100dp"
             android:layout_height="3dp"
-            android:layout_marginTop="12dp"
             android:background="@drawable/shape_slider"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -21,7 +22,7 @@
             android:id="@+id/tvCreatedAt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="16dp"
             android:gravity="center"
             android:padding="6dp"
             android:textSize="16sp"
@@ -77,16 +78,39 @@
             app:layout_constraintTop_toTopOf="@+id/tvDownload" />
 
         <TextView
-            android:id="@+id/tvLikes"
+            android:id="@+id/tvSize"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
-            android:drawableStart="@drawable/ic_favorite_24"
+            android:drawableStart="@drawable/ic_search_24"
             android:drawablePadding="24dp"
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:padding="16dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvDownload"
+            tools:text="666" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="SIZE"
+            app:layout_constraintBottom_toBottomOf="@+id/tvSize"
+            app:layout_constraintLeft_toRightOf="@+id/tvSize"
+            app:layout_constraintTop_toTopOf="@+id/tvSize" />
+
+        <TextView
+            android:id="@+id/tvLikes"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:drawableStart="@drawable/ic_favorite_24"
+            android:drawablePadding="24dp"
+            android:gravity="center_vertical"
+            android:padding="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvSize"
             tools:text="666" />
 
         <TextView
@@ -104,9 +128,9 @@
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_eye_24"
             android:drawablePadding="24dp"
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:padding="16dp"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintLeft_toLeftOf="@+id/tvLikes"
             app:layout_constraintTop_toBottomOf="@+id/tvLikes"
             tools:text="666" />
 

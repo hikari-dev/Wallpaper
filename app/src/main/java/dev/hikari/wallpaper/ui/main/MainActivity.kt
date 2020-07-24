@@ -57,13 +57,20 @@ class MainActivity : AppCompatActivity() {
                     val needLoadMore = (lastVisibleItemPositions.max()
                         ?: 0) + loadMoreThreshold >= (recyclerView.layoutManager as StaggeredGridLayoutManager).itemCount
                     if (needLoadMore && !isLoadingMore) {
-                        isLoadingMore = true
                         Timber.e("start loadMore")
+                        isLoadingMore = true
                         currentPage++
                         mainViewModel.fetchWallpapers(currentPage)
                     }
                 }
             })
+        }
+
+        swipeRefreshLayout.setOnRefreshListener {
+            currentPage = 1
+            wallpapers.clear()
+            mAdapter.notifyItemRangeRemoved(0, wallpapers.size)
+            mainViewModel.fetchWallpapers(currentPage)
         }
 
 
@@ -74,7 +81,7 @@ class MainActivity : AppCompatActivity() {
             when (it.status) {
                 Status.SUCCESS -> {
                     isLoadingMore = false
-                    progressBar.visibility = View.GONE
+                    swipeRefreshLayout.isRefreshing = false
                     it.data?.let { list ->
                         renderList(list)
                     }
@@ -82,12 +89,12 @@ class MainActivity : AppCompatActivity() {
                 }
                 Status.ERROR -> {
                     isLoadingMore = false
-                    progressBar.visibility = View.GONE
+                    swipeRefreshLayout.isRefreshing = false
                     Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
                 }
                 Status.LOADING -> {
-                    if (!isLoadingMore) {
-                        progressBar.visibility = View.VISIBLE
+                    if (currentPage == 1) {
+                        swipeRefreshLayout.isRefreshing = true
                     }
                 }
             }
