@@ -56,10 +56,9 @@ class MainActivity : AppCompatActivity() {
                         )
                     val needLoadMore = (lastVisibleItemPositions.max()
                         ?: 0) + loadMoreThreshold >= (recyclerView.layoutManager as StaggeredGridLayoutManager).itemCount
-                    if (needLoadMore && !isLoadingMore) {
+                    if (needLoadMore && !isLoadingMore && currentPage != 1) {
                         Timber.e("start loadMore")
                         isLoadingMore = true
-                        currentPage++
                         mainViewModel.fetchWallpapers(currentPage)
                     }
                 }
@@ -68,8 +67,9 @@ class MainActivity : AppCompatActivity() {
 
         swipeRefreshLayout.setOnRefreshListener {
             currentPage = 1
+            val size = wallpapers.size
             wallpapers.clear()
-            mAdapter.notifyItemRangeRemoved(0, wallpapers.size)
+            mAdapter.notifyItemRangeRemoved(0, size)
             mainViewModel.fetchWallpapers(currentPage)
         }
 
@@ -81,6 +81,7 @@ class MainActivity : AppCompatActivity() {
             when (it.status) {
                 Status.SUCCESS -> {
                     isLoadingMore = false
+                    currentPage++
                     swipeRefreshLayout.isRefreshing = false
                     it.data?.let { list ->
                         renderList(list)
