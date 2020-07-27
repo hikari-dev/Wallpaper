@@ -23,7 +23,8 @@ data class Wallpaper(
     @field:Json(name = "created_at") val createdAt: String,
     @field:Json(name = "file_size") val fileSize: Int,
     @field:Json(name = "file_type") val fileType: String,
-    val thumbs: Thumbs
+    val thumbs: Thumbs,
+    val colors: List<String>
 ) : Parcelable
 
 @Parcelize

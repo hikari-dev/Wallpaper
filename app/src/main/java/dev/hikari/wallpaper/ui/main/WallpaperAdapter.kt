@@ -1,5 +1,6 @@
 package dev.hikari.wallpaper.ui.main
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +34,7 @@ class WallpaperAdapter constructor(
             }
             layoutParams.height = layoutParams.width * wallpaper.dimensionY / wallpaper.dimensionX
             itemView.ivWallpaper.layoutParams = layoutParams
+            itemView.setBackgroundColor(Color.parseColor(wallpaper.colors[0]))
             Glide.with(itemView.ivWallpaper.context)
                 .load(wallpaper.path)
                 .into(itemView.ivWallpaper)

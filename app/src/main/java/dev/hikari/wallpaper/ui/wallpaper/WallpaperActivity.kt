@@ -1,4 +1,4 @@
-package dev.hikari.wallpaper.ui.detail
+package dev.hikari.wallpaper.ui.wallpaper
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -11,17 +11,17 @@ import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.hikari.wallpaper.R
 import dev.hikari.wallpaper.model.Wallpaper
-import kotlinx.android.synthetic.main.activity_detail.*
+import kotlinx.android.synthetic.main.activity_wallpaper.*
 import kotlinx.android.synthetic.main.layout_detail.*
 import timber.log.Timber
 
-class DetailActivity : AppCompatActivity() {
+class WallpaperActivity : AppCompatActivity() {
 
     companion object {
         private const val EXTRA_WALLPAPER = "EXTRA_WALLPAPER"
 
         fun startActivity(context: Activity, wallpaper: Wallpaper, view: View) {
-            val intent = Intent(context, DetailActivity::class.java)
+            val intent = Intent(context, WallpaperActivity::class.java)
             intent.putExtra(EXTRA_WALLPAPER, wallpaper)
             val transitionName = context.resources.getString(R.string.transition_name)
             val transitionActivityOptions =
@@ -33,7 +33,7 @@ class DetailActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
+        setContentView(R.layout.activity_wallpaper)
 
         toolbar.setNavigationOnClickListener { finishAfterTransition() }
 
@@ -43,9 +43,12 @@ class DetailActivity : AppCompatActivity() {
             tvSize.text = resolution
             tvLikes.text = favorites.toString()
             tvViews.text = views.toString()
-            Glide.with(this@DetailActivity)
+            Glide.with(this@WallpaperActivity)
                 .load(path)
                 .into(ivWallpaper)
+        }
+        ivWallpaper.setOnClickListener {
+            WallpaperDetailActivity.startActivity(this, wallpaper)
         }
 
         val bottomSheetBehavior = BottomSheetBehavior.from(bottomScrollView)
