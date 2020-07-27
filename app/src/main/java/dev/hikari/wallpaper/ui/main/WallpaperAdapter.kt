@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import dev.hikari.wallpaper.R
 import dev.hikari.wallpaper.model.Wallpaper
+import dev.hikari.wallpaper.utils.DensityUtils
 import kotlinx.android.synthetic.main.item_wallpaper.view.*
 
 class WallpaperAdapter constructor(
@@ -22,7 +23,8 @@ class WallpaperAdapter constructor(
     class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(wallpaper: Wallpaper) {
             val layoutParams = itemView.ivWallpaper.layoutParams
-            val imageWidth = itemView.context.resources.displayMetrics.widthPixels / 2
+            val imageWidth =
+                (itemView.context.resources.displayMetrics.widthPixels - DensityUtils.dp2px(8f) * 3) / 2
             layoutParams.width = imageWidth
             layoutParams.height = imageWidth * wallpaper.dimensionY / wallpaper.dimensionX
             if (layoutParams.height < MIN_HEIGHT) {
