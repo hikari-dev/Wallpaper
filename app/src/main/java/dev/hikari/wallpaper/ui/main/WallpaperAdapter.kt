@@ -26,12 +26,12 @@ class WallpaperAdapter constructor(
             val imageWidth =
                 (itemView.context.resources.displayMetrics.widthPixels - DensityUtils.dp2px(8f) * 3) / 2
             layoutParams.width = imageWidth
-            layoutParams.height = imageWidth * wallpaper.dimensionY / wallpaper.dimensionX
             if (layoutParams.height < MIN_HEIGHT) {
                 layoutParams.height = MIN_HEIGHT
             } else if (layoutParams.height > MAX_HEIGHT) {
                 layoutParams.height = MAX_HEIGHT
             }
+            layoutParams.height = layoutParams.width * wallpaper.dimensionY / wallpaper.dimensionX
             itemView.ivWallpaper.layoutParams = layoutParams
             Glide.with(itemView.ivWallpaper.context)
                 .load(wallpaper.path)
