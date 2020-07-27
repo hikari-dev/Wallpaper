@@ -1,11 +1,12 @@
 package dev.hikari.wallpaper.ui.detail
 
 import android.annotation.SuppressLint
-import android.content.Context
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dev.hikari.wallpaper.R
@@ -19,11 +20,13 @@ class DetailActivity : AppCompatActivity() {
     companion object {
         private const val EXTRA_WALLPAPER = "EXTRA_WALLPAPER"
 
-        fun startActivity(context: Context, wallpaper: Wallpaper) {
-            // TODO: 2020/7/22 添加过渡动画
+        fun startActivity(context: Activity, wallpaper: Wallpaper, view: View) {
             val intent = Intent(context, DetailActivity::class.java)
             intent.putExtra(EXTRA_WALLPAPER, wallpaper)
-            context.startActivity(intent)
+            val transitionName = context.resources.getString(R.string.transition_name)
+            val transitionActivityOptions =
+                ActivityOptionsCompat.makeSceneTransitionAnimation(context, view, transitionName)
+            context.startActivity(intent, transitionActivityOptions.toBundle())
         }
     }
 
@@ -32,7 +35,7 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
-        toolbar.setNavigationOnClickListener { finish() }
+        toolbar.setNavigationOnClickListener { finishAfterTransition() }
 
         val wallpaper: Wallpaper = requireNotNull(intent.getParcelableExtra(EXTRA_WALLPAPER))
         with(wallpaper) {

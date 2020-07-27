@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.item_wallpaper.view.*
 
 class WallpaperAdapter constructor(
     private val wallpapers: MutableList<Wallpaper>,
-    private val onWallpaperClickListener: (Int) -> Unit
+    private val onWallpaperClickListener: (Int, View) -> Unit
 ) : RecyclerView.Adapter<WallpaperAdapter.DataViewHolder>() {
 
     companion object {
@@ -32,7 +32,7 @@ class WallpaperAdapter constructor(
             }
             itemView.ivWallpaper.layoutParams = layoutParams
             Glide.with(itemView.ivWallpaper.context)
-                .load(wallpaper.thumbs.original)
+                .load(wallpaper.path)
                 .into(itemView.ivWallpaper)
         }
     }
@@ -45,8 +45,12 @@ class WallpaperAdapter constructor(
     override fun getItemCount(): Int = wallpapers.size
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
-        holder.bind(wallpapers[position])
-        holder.itemView.setOnClickListener { onWallpaperClickListener.invoke(position) }
+        holder.apply {
+            bind(wallpapers[position])
+            itemView.setOnClickListener {
+                onWallpaperClickListener.invoke(position, itemView)
+            }
+        }
     }
 
 }

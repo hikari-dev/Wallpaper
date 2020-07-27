@@ -5,19 +5,13 @@
     android:layout_height="match_parent"
     android:background="#000000">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/transparent"
-        app:navigationIcon="@drawable/ic_arrow_back_24" />
-
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivWallpaper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="166dp"
-        android:scaleType="fitCenter" />
+        android:scaleType="fitCenter"
+        android:transitionName="@string/transition_name" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/bottomScrollView"
@@ -29,4 +23,10 @@
         <include layout="@layout/layout_detail" />
     </androidx.core.widget.NestedScrollView>
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/transparent"
+        app:navigationIcon="@drawable/ic_arrow_back_24" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

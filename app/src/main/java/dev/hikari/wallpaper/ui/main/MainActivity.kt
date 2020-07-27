@@ -42,8 +42,8 @@ class MainActivity : AppCompatActivity() {
                 StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             staggeredGridLayoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
             layoutManager = staggeredGridLayoutManager
-            mAdapter = WallpaperAdapter(wallpapers) { position ->
-                DetailActivity.startActivity(this@MainActivity, wallpapers[position])
+            mAdapter = WallpaperAdapter(wallpapers) { position, view ->
+                DetailActivity.startActivity(this@MainActivity, wallpapers[position], view)
             }
             adapter = mAdapter
             addItemDecoration(StaggeredItemDecoration(DensityUtils.dp2px(8.0f)))
