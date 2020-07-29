@@ -50,4 +50,5 @@ object NetworkModule {
     @Singleton
     fun provideWallpaperClient(wallpaperService: WallpaperService): WallpaperClient =
         WallpaperClient(wallpaperService)
+
 }

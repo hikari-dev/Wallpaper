@@ -7,15 +7,27 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import dagger.hilt.android.AndroidEntryPoint
 import dev.hikari.wallpaper.R
+import dev.hikari.wallpaper.data.network.WallpaperClient
 import dev.hikari.wallpaper.model.Wallpaper
 import kotlinx.android.synthetic.main.activity_wallpaper.*
 import kotlinx.android.synthetic.main.layout_detail.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.ResponseBody
 import timber.log.Timber
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class WallpaperActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var wallpaperClient: WallpaperClient
 
     companion object {
         private const val EXTRA_WALLPAPER = "EXTRA_WALLPAPER"
@@ -64,8 +76,21 @@ class WallpaperActivity : AppCompatActivity() {
             }
         })
 
+        tvDownload.setOnClickListener {
+            lifecycleScope.launch {
+                val response = wallpaperClient.downloadWallpaper(wallpaper.path)
+                if (response.isSuccessful) {
+                    saveFile(response.body()!!)
+                } else {
+                    Timber.e("download failed")
+                }
+            }
+        }
 
     }
 
+    private suspend fun saveFile(body: ResponseBody) = withContext(Dispatchers.IO) {
+
+    }
 
 }

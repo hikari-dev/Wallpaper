@@ -16,22 +16,12 @@ class WallpaperAdapter constructor(
     private val onWallpaperClickListener: (Int, View) -> Unit
 ) : RecyclerView.Adapter<WallpaperAdapter.DataViewHolder>() {
 
-    companion object {
-        private const val MIN_HEIGHT = 360
-        private const val MAX_HEIGHT = 800
-    }
-
     class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(wallpaper: Wallpaper) {
             val layoutParams = itemView.ivWallpaper.layoutParams
             val imageWidth =
                 (itemView.context.resources.displayMetrics.widthPixels - DensityUtils.dp2px(8f) * 3) / 2
             layoutParams.width = imageWidth
-            if (layoutParams.height < MIN_HEIGHT) {
-                layoutParams.height = MIN_HEIGHT
-            } else if (layoutParams.height > MAX_HEIGHT) {
-                layoutParams.height = MAX_HEIGHT
-            }
             layoutParams.height = layoutParams.width * wallpaper.dimensionY / wallpaper.dimensionX
             itemView.ivWallpaper.layoutParams = layoutParams
             itemView.setBackgroundColor(Color.parseColor(wallpaper.colors[0]))

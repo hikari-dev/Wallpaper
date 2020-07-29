@@ -17,5 +17,4 @@ object RepositoryModule {
     fun provideMainRepository(wallpaperClient: WallpaperClient): MainRepository =
         MainRepository(wallpaperClient)
 
-
 }
