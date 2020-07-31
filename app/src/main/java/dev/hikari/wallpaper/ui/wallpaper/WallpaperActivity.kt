@@ -2,13 +2,19 @@ package dev.hikari.wallpaper.ui.wallpaper
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.WallpaperManager
 import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import dev.hikari.wallpaper.R
@@ -85,6 +91,27 @@ class WallpaperActivity : AppCompatActivity() {
                     Timber.e("download failed")
                 }
             }
+        }
+
+        tvShare.setOnClickListener {
+            Toast.makeText(this, "功能待开发中...", Toast.LENGTH_SHORT).show()
+        }
+
+        tvSetWallpaper.setOnClickListener {
+            val wallpaperManager = WallpaperManager.getInstance(this)
+            Glide.with(this).load(wallpaper.path).into(object : CustomTarget<Drawable>() {
+                override fun onLoadCleared(placeholder: Drawable?) {
+                }
+
+                override fun onResourceReady(
+                    resource: Drawable,
+                    transition: Transition<in Drawable>?
+                ) {
+                    // TODO: 2020/7/31 use setBitmap(Bitmap fullImage, Rect visibleCropHint, boolean allowBackup) to control wallpaper rect
+                    wallpaperManager.setBitmap((resource as BitmapDrawable).bitmap)
+                    Toast.makeText(this@WallpaperActivity, "设置壁纸成功", Toast.LENGTH_SHORT).show()
+                }
+            })
         }
 
     }

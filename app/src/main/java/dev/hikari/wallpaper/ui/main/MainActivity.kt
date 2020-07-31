@@ -33,7 +33,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 100)
+        requestPermissions(
+            arrayOf(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ), 100
+        )
         setupUI()
         setupObserver()
     }
