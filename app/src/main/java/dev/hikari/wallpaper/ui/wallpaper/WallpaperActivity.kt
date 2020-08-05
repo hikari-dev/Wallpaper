@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.os.Environment
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -27,6 +28,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
 import timber.log.Timber
+import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -73,7 +75,7 @@ class WallpaperActivity : AppCompatActivity() {
         bottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                Timber.d("bottomSheetBehavior slideOffset -> $slideOffset")
+//                Timber.d("bottomSheetBehavior slideOffset -> $slideOffset")
                 val deltaY = bottomScrollView.height - bottomSheetBehavior.peekHeight
                 ivWallpaper.translationY = -slideOffset * 0.7f * deltaY
             }
@@ -86,7 +88,9 @@ class WallpaperActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 val response = wallpaperClient.downloadWallpaper(wallpaper.path)
                 if (response.isSuccessful) {
-                    saveFile(response.body()!!)
+                    val filename = wallpaper.path.substringAfterLast("/")
+                    saveFile(filename, response.body()!!)
+                    Toast.makeText(this@WallpaperActivity, "下载完成", Toast.LENGTH_SHORT).show()
                 } else {
                     Timber.e("download failed")
                 }
@@ -116,8 +120,14 @@ class WallpaperActivity : AppCompatActivity() {
 
     }
 
-    private suspend fun saveFile(body: ResponseBody) = withContext(Dispatchers.IO) {
-
-    }
+    private suspend fun saveFile(fileName: String, body: ResponseBody) =
+        withContext(Dispatchers.IO) {
+            val dir =
+                File("${Environment.getExternalStorageDirectory().absolutePath}/${Environment.DIRECTORY_PICTURES}/x")
+            if (!dir.exists()) {
+                dir.mkdirs()
+            }
+            File(dir, fileName).writeBytes(body.use { it.bytes() })
+        }
 
 }

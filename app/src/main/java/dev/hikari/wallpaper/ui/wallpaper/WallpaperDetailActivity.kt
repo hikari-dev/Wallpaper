@@ -24,6 +24,9 @@ class WallpaperDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wallpaper_detail)
+
+        toolbar.setNavigationOnClickListener { finish() }
+
         val wallpaper: Wallpaper = requireNotNull(intent.getParcelableExtra(EXTRA_WALLPAPER))
         Glide.with(this)
             .load(wallpaper.path)
