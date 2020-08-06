@@ -30,9 +30,6 @@
         <activity
             android:name=".ui.wallpaper.WallpaperActivity"
             android:launchMode="singleTask" />
-        <activity
-            android:name=".ui.wallpaper.WallpaperDetailActivity"
-            android:launchMode="singleTask" />
     </application>
 
 </manifest>

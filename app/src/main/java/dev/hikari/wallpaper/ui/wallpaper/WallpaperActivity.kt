@@ -23,6 +23,7 @@ import dev.hikari.wallpaper.data.network.WallpaperClient
 import dev.hikari.wallpaper.model.Wallpaper
 import kotlinx.android.synthetic.main.activity_wallpaper.*
 import kotlinx.android.synthetic.main.layout_detail.*
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -65,10 +66,7 @@ class WallpaperActivity : AppCompatActivity() {
             tvViews.text = views.toString()
             Glide.with(this@WallpaperActivity)
                 .load(path)
-                .into(ivWallpaper)
-        }
-        ivWallpaper.setOnClickListener {
-            WallpaperDetailActivity.startActivity(this, wallpaper)
+                .into(photoView)
         }
 
         val bottomSheetBehavior = BottomSheetBehavior.from(bottomScrollView)
@@ -77,7 +75,7 @@ class WallpaperActivity : AppCompatActivity() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
 //                Timber.d("bottomSheetBehavior slideOffset -> $slideOffset")
                 val deltaY = bottomScrollView.height - bottomSheetBehavior.peekHeight
-                ivWallpaper.translationY = -slideOffset * 0.7f * deltaY
+                photoView.translationY = -slideOffset * 0.7f * deltaY
             }
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
@@ -85,7 +83,10 @@ class WallpaperActivity : AppCompatActivity() {
         })
 
         tvDownload.setOnClickListener {
-            lifecycleScope.launch {
+            lifecycleScope.launch(CoroutineExceptionHandler { _, throwable ->
+                Timber.e("download exception:${throwable.message}")
+                Toast.makeText(this@WallpaperActivity, "下载失败TAT", Toast.LENGTH_SHORT).show()
+            }) {
                 val response = wallpaperClient.downloadWallpaper(wallpaper.path)
                 if (response.isSuccessful) {
                     val filename = wallpaper.path.substringAfterLast("/")
