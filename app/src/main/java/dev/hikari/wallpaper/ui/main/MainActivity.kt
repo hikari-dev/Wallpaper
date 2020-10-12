@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                         (recyclerView.layoutManager as StaggeredGridLayoutManager).findLastVisibleItemPositions(
                             null
                         )
-                    val needLoadMore = (lastVisibleItemPositions.max()
+                    val needLoadMore = (lastVisibleItemPositions.maxOrNull()
                         ?: 0) + loadMoreThreshold >= (recyclerView.layoutManager as StaggeredGridLayoutManager).itemCount
                     if (needLoadMore && !isLoadingMore && currentPage != 1) {
                         Timber.e("start loadMore")
