@@ -121,6 +121,7 @@ class WallpaperActivity : AppCompatActivity() {
 
     }
 
+    @Suppress("DEPRECATION")
     private suspend fun saveFile(fileName: String, body: ResponseBody) =
         withContext(Dispatchers.IO) {
             val dir =
